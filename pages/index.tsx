@@ -1,21 +1,11 @@
 import Head from 'next/head'
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import client from "../apollo-client";
 import styles from '../styles/Home.module.css'
 import {Query_Countries} from '../querys'
 
 export async function getStaticProps() {
-  const { data } = await client.query({
-    query: gql`
-      query Countries {
-        countries {
-          code
-          name
-          emoji
-        }
-      }
-    `,
-  });
+  const { data } = await client.query({ query:Query_Countries });
  
   return {
     props: {

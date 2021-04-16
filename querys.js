@@ -2,14 +2,14 @@ import { gql } from "@apollo/client";
 
 //----------------QUERYS--------------------->
 export const Query_Countries = gql`
-    query(){
-        countries {
-          code
-          name
-          emoji
-        }
+    query Countries {
+    countries {
+      code
+      name
+      emoji
     }
-`
+  }
+`;
 
 //----------------MUTATION------------------->
 
