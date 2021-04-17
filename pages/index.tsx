@@ -1,60 +1,33 @@
 import Head from 'next/head'
-import { gql, useQuery } from "@apollo/client";
-import client from "../apollo-client";
+import {useQuery} from '@apollo/client'
 import styles from '../styles/Home.module.css'
-import {Query_Countries} from '../querys'
+import { Query_test } from 'querys';
+import { initializeApollo } from 'src/apollo';
 
-export async function getStaticProps() {
-  const { data } = await client.query({ query:Query_Countries });
- 
-  return {
-    props: {
-      countries: data.countries.slice(0, 4),
-    },
- };
-}
-
-export default function Home({countries}) {
+export default function Home({initializeApolloState}) {
+  
+  
+  // const { data, loading } = useQuery(Query_test);
+  
+  // if (loading) return <span>loading...</span>;
 
   return (
-        <div className={styles.container}>
-          <Head>
-            <title>Create Next App</title>
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
-
-          <main className={styles.main}>
-            <h1 className={styles.title}>
-              Welcome to <a href="https://nextjs.org">Next.js!</a>
-            </h1>
-
-            <p className={styles.description}>
-              Get started by editing{" "}
-              <code className={styles.code}>pages/index.js</code>
-            </p>
-
-            <div className={styles.grid}>
-              {countries.map((country) => (
-                <div key={country.code} className={styles.card}>
-                  <h3>{country.name}</h3>
-                  <p>
-                    {country.code} - {country.emoji}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </main>
-
-          <footer className={styles.footer}>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Powered by{" "}
-              <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-            </a>
-          </footer>
-        </div>
+    <div>
+      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+      <pre>{JSON.stringify(initializeApolloState, null, 2)}</pre>
+    </div>
   )
+}
+
+export async function getStaticProps() {
+  const apolloClient = initializeApollo();
+
+  await apolloClient.query({
+    query: Query_test,
+  })
+  return {
+    props: {
+      initializeApolloState: apolloClient.cache.extract(),
+    }
+  }
 }
